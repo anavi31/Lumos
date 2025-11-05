@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import '../../widgets/lumos_drawer_ra.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class RaHomeScreen extends StatelessWidget {
+  const RaHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const LumosDrawer(),
+      drawer: const LumosDrawerRA(),
       appBar: AppBar(
         backgroundColor: const Color(0xFFDCC9FF),
         elevation: 0,
-        centerTitle: true, // Centraliza o título no topo
-        title: Text(
+        centerTitle: true,
+        title: const Text(
           'LUMOS',
-          style: const TextStyle(
-            fontFamily: 'Frogie', // Usa a fonte personalizada
+          style: TextStyle(
+            fontFamily: 'Frogie',
             fontSize: 38,
             color: Colors.black,
             letterSpacing: 1.2,
@@ -33,9 +33,9 @@ class HomeScreen extends StatelessWidget {
               height: 150,
             ),
             const SizedBox(height: 20),
-            Text(
+            const Text(
               'LUMOS',
-              style: const TextStyle(
+              style: TextStyle(
                 fontFamily: 'Frogie',
                 fontSize: 80,
                 color: Color(0xFFCFCEFF),

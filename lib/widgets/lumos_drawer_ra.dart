@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../screens/responsavel_academico/home_screen.dart';
-import '../screens/responsavel_academico/notas_screen.dart';
-import '../screens/responsavel_academico/horario_screen.dart';
-import '../screens/responsavel_academico/avisos_screen.dart';
-import '../screens/responsavel_academico/advertencias_screen.dart';
-import '../screens/responsavel_academico/faltas_screen.dart';
+import '../screens/responsavel_academico/ra_home_screen.dart';
+import '../screens/responsavel_academico/ra_notas_screen.dart';
+import '../screens/responsavel_academico/ra_horario_screen.dart';
+import '../screens/responsavel_academico/ra_avisos_screen.dart';
+import '../screens/responsavel_academico/ra_advertencias_screen.dart';
+import '../screens/responsavel_academico/ra_faltas_screen.dart';
 
-class LumosDrawer extends StatelessWidget {
-  const LumosDrawer({super.key});
+class LumosDrawerRA extends StatelessWidget {
+  const LumosDrawerRA({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +20,13 @@ class LumosDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- Logo LUMOS ---
             Row(
               children: [
                 Image.asset('assets/images/atomo.png', width: 60, height: 60),
                 const SizedBox(width: 10),
-                Text(
+                const Text(
                   'Lumos',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Frogie',
                     fontSize: 42,
                     color: Colors.black,
@@ -37,7 +36,6 @@ class LumosDrawer extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // --- Informações do responsável ---
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
@@ -57,40 +55,38 @@ class LumosDrawer extends StatelessWidget {
             ),
             const SizedBox(height: 25),
 
-            // --- Itens do menu ---
             _drawerItem(
               icon: 'assets/images/teacher.svg',
               text: 'Grade Horária',
-              onTap: () => _navigate(context, const HorarioScreen()),
+              onTap: () => _navigate(context, const RaHorarioScreen()),
             ),
             _drawerItem(
               icon: 'assets/images/profile-2user.svg',
               text: 'Notas',
-              onTap: () => _navigate(context, const NotasScreen()),
+              onTap: () => _navigate(context, const RaNotasScreen()),
             ),
             _drawerItem(
               icon: 'assets/images/note_line.svg',
               text: 'Faltas',
-              onTap: () => _navigate(context, const FaltasScreen()),
+              onTap: () => _navigate(context, const RaFaltasScreen()),
             ),
             _drawerItem(
               icon: 'assets/images/message-square-dots-2.svg',
               text: 'Passeios e Eventos',
-              onTap: () => _navigate(context, const AvisosScreen()),
+              onTap: () => _navigate(context, const RaAvisosScreen()),
             ),
             _drawerItem(
               icon: 'assets/images/message-square-dots-1.svg',
               text: 'Advertências',
-              onTap: () => _navigate(context, const AdvertenciasScreen()),
+              onTap: () => _navigate(context, const RaAdvertenciasScreen()),
             ),
 
             const Spacer(),
 
-            // --- Botão Encerrar Sessão ---
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const HomeScreen()),
+                  MaterialPageRoute(builder: (_) => const RaHomeScreen()),
                 );
               },
               child: Container(

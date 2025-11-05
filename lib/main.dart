@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'screens/responsavel_academico/home_screen.dart';
-import 'screens/responsavel_academico/notas_screen.dart';
-import 'screens/responsavel_academico/horario_screen.dart';
-import 'screens/responsavel_academico/avisos_screen.dart';
-import 'screens/responsavel_academico/advertencias_screen.dart';
-import 'screens/responsavel_academico/faltas_screen.dart';
+import 'screens/responsavel_academico/ra_home_screen.dart';
+import 'screens/responsavel_academico/ra_notas_screen.dart';
+import 'screens/responsavel_academico/ra_horario_screen.dart';
+import 'screens/responsavel_academico/ra_avisos_screen.dart';
+import 'screens/responsavel_academico/ra_advertencias_screen.dart';
+import 'screens/responsavel_academico/ra_faltas_screen.dart';
 
 void main() {
   runApp(const LumosApp());
@@ -25,15 +25,14 @@ class LumosApp extends StatelessWidget {
           seedColor: const Color(0xFFDCC9FF),
         ),
       ),
-      // rota inicial:
-      initialRoute: '/',
+      initialRoute: '/rf_home', //pra testar a tela q vc quer vc altera AQUI a tela que vc quer que rode primeiro ok!!
       routes: {
-        '/': (context) => const HomeScreen(),
-        '/notas': (context) => const NotasScreen(),
-        '/horario': (context) => const HorarioScreen(),
-        '/avisos': (context) => const AvisosScreen(),
-        '/advertencias': (context) => const AdvertenciasScreen(),
-        '/falta': (context) => const FaltasScreen(),
+        '/ra_home': (context) => const RaHomeScreen(),
+        '/ra_notas': (context) => const RaNotasScreen(),
+        '/ra_horario': (context) => const RaHorarioScreen(),
+        '/ra_avisos': (context) => const RaAvisosScreen(),
+        '/ra_advertencias': (context) => const RaAdvertenciasScreen(),
+        '/ra_faltas': (context) => const RaFaltasScreen(),
       },
     );
   }

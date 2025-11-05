@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../widgets/lumos_drawer_ra.dart';
 
-class AvisosScreen extends StatefulWidget {
-  const AvisosScreen({super.key});
+class RaAvisosScreen extends StatefulWidget {
+  const RaAvisosScreen({super.key});
 
   @override
-  State<AvisosScreen> createState() => _AvisosScreenState();
+  State<RaAvisosScreen> createState() => _RaAvisosScreenState();
 }
 
-class _AvisosScreenState extends State<AvisosScreen> {
-  // Lista dos avisos
+class _RaAvisosScreenState extends State<RaAvisosScreen> {
   final List<Map<String, String>> avisos = [
     {
       'titulo': 'Passeio ao Zoológico',
@@ -29,13 +28,12 @@ class _AvisosScreenState extends State<AvisosScreen> {
     },
   ];
 
-  // Índice expandido
   int? expandedIndex;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const LumosDrawer(),
+      drawer: const LumosDrawerRA(),
       appBar: AppBar(
         backgroundColor: const Color(0xFFDCC9FF),
         elevation: 0,
@@ -70,8 +68,7 @@ class _AvisosScreenState extends State<AvisosScreen> {
                   boxShadow: [
                     if (isExpanded)
                       BoxShadow(
-                        // ignore: deprecated_member_use
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withAlpha((0.1 * 255).toInt()),
                         blurRadius: 6,
                         offset: const Offset(0, 3),
                       ),
@@ -80,13 +77,15 @@ class _AvisosScreenState extends State<AvisosScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(aviso['titulo']!,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(
+                      aviso['titulo']!,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(height: 8),
-                    Text(isExpanded
-                        ? aviso['detalhe']!
-                        : aviso['descricao']!),
+                    Text(isExpanded ? aviso['detalhe']! : aviso['descricao']!),
                     const SizedBox(height: 8),
                     Align(
                       alignment: Alignment.bottomRight,
