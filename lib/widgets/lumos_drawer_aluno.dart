@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../screens/aluno/al_home_screen.dart';
+import '../screens/autenticacao/login_screen.dart';
 import '../screens/aluno/al_horario_screen.dart';
 import '../screens/aluno/al_avisos_screen.dart';
 import '../screens/aluno/al_notas_screen.dart';
@@ -78,7 +78,7 @@ class LumosDrawerAL extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const AlHomeScreen()),
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
                 );
               },
               child: Container(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../screens/professor/pr_home_screen.dart';
+import '../screens/autenticacao/login_screen.dart';
 import '../screens/professor/pr_horario_screen.dart';
 import '../screens/professor/pr_aviso_screen.dart';
 import '../screens/professor/pr_notas_screen.dart';
@@ -78,7 +78,7 @@ class LumosDrawerPR extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const PrHomeScreen()),
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
                 );
               },
               child: Container(

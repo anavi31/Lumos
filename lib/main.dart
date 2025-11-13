@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+//Auntenticação
+import 'screens/autenticacao/login_screen.dart';
 //Aluno
 import 'screens/aluno/al_home_screen.dart';
 import 'screens/aluno/al_horario_screen.dart';
@@ -44,9 +46,10 @@ class LumosApp extends StatelessWidget {
           seedColor: const Color(0xFFDCC9FF),
         ),
       ),
-      initialRoute: '/pr_home', // !! vc altera AQUI a tela que vc quer que RODE PRIMEIRO ok !!
+      initialRoute: '/login', // !! vc altera AQUI a tela que vc quer que RODE PRIMEIRO ok !!
 
       routes: {
+        '/login': (context) => const LoginScreen(),
         '/al_home': (context) => const AlHomeScreen(),
         '/al_notas': (context) => const AlNotasScreen(),
         '/al_horario': (context) => const AlHorarioScreen(),

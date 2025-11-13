@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../screens/responsavel_financeiro/rf_home_screen.dart';
+import '../screens/autenticacao/login_screen.dart';
 import '../screens/responsavel_financeiro/rf_notas_screen.dart';
 import '../screens/responsavel_financeiro/rf_faltas_screen.dart';
 import '../screens/responsavel_financeiro/rf_financeiro_screen.dart';
@@ -74,7 +74,7 @@ class LumosDrawerRF extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const RfHomeScreen()), //esse tem que ser a tela de login, mas enquanto nn tenho o link tô pondo a home
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
                 );
               },
               child: Container(
