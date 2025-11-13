@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/esqueci_senha'); //conecttar esqueci a senha aq dps
+                Navigator.pushNamed(context, '/esqueci_senha');
               },
               child: const Text(
                 "Esqueceu a senha?",

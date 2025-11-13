@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 //Auntenticação
 import 'screens/autenticacao/login_screen.dart';
+import 'screens/autenticacao/esqueci_senha_screen.dart';
+import 'screens/autenticacao/nova_senha_screen.dart';
 //Aluno
 import 'screens/aluno/al_home_screen.dart';
 import 'screens/aluno/al_horario_screen.dart';
@@ -50,6 +52,8 @@ class LumosApp extends StatelessWidget {
 
       routes: {
         '/login': (context) => const LoginScreen(),
+        '/esqueci_senha': (context) => const EsqueciSenhaScreen(),
+        '/nova_senha': (context) => const NovaSenhaScreen(),
         '/al_home': (context) => const AlHomeScreen(),
         '/al_notas': (context) => const AlNotasScreen(),
         '/al_horario': (context) => const AlHorarioScreen(),
