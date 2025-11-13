@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../widgets/lumos_drawer_ra.dart';
+import '../../widgets/lumos_drawer_aluno.dart';
 
-class RaNotasScreen extends StatelessWidget {
-  const RaNotasScreen({super.key});
+class AlNotasScreen extends StatelessWidget {
+  const AlNotasScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const LumosDrawerRA(),
+      drawer: const LumosDrawerAL(),
       appBar: AppBar(
         title: const Text(
           'Notas',

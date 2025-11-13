@@ -20,68 +20,113 @@ class RfNotasScreen extends StatelessWidget {
         elevation: 0,
       ),
       backgroundColor: const Color(0xFFF5F4F9),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: const [
-                  BoxShadow(color: Colors.black12, blurRadius: 3)
-                ],
-              ),
-              child: Table(
-                border: TableBorder(
-                  horizontalInside: BorderSide(color: Colors.grey.shade300),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final bool isMobile = constraints.maxWidth < 600;
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 60),
+            child: Center(
+              child: Container(
+                width: isMobile ? double.infinity : constraints.maxWidth * 0.9,
+                constraints: const BoxConstraints(maxWidth: 1100),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: const [
+                    BoxShadow(color: Colors.black12, blurRadius: 3)
+                  ],
                 ),
-                columnWidths: const {
-                  0: FixedColumnWidth(50),
-                  1: FlexColumnWidth(2),
-                  2: FlexColumnWidth(),
-                  3: FlexColumnWidth(),
-                  4: FlexColumnWidth(),
-                  5: FlexColumnWidth(),
-                },
-                children: [
-                  _buildHeaderRow(),
-                  ..._buildNotaRows(),
-                ],
+                child: isMobile
+                    ? _buildMobileTable()
+                    : _buildDesktopTable(),
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
+    );
+  }
+
+  /// Layout para telas grandes (desktop/tablet)
+  Widget _buildDesktopTable() {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Table(
+        border: TableBorder(
+          horizontalInside: BorderSide(color: Colors.grey.shade300),
+        ),
+        columnWidths: const {
+          0: FlexColumnWidth(2),
+          1: FlexColumnWidth(),
+          2: FlexColumnWidth(),
+          3: FlexColumnWidth(),
+          4: FlexColumnWidth(),
+        },
+        children: [
+          _buildHeaderRow(),
+          ..._buildNotaRows(),
+        ],
+      ),
+    );
+  }
+
+  /// Layout adaptado para telas pequenas (celulares)
+  Widget _buildMobileTable() {
+    final dados = _dadosNotas();
+    return Column(
+      children: dados.map((linha) {
+        return Container(
+          margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey.shade300),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                linha[0], // Matéria
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              const Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('1° Unidade: ${linha[1]} | 2° Unidade: ${linha[2]}'),
+                  Text('Média: ${linha[4]}'),
+                ],
+              ),
+            ],
+          ),
+        );
+      }).toList(),
     );
   }
 
   TableRow _buildHeaderRow() {
     final headers = [
       'Matéria',
-      'Avaliação 1',
-      'Avaliação 2',
-      'Avaliação 3',
+      '1° Unidade',
+      '2° Unidade',
+      '3° Unidade',
       'Média'
     ];
 
     return TableRow(
       children: List.generate(headers.length, (index) {
-        final radius = index == 0
-            ? const BorderRadius.only(topLeft: Radius.circular(12))
-            : index == headers.length - 1
-                ? const BorderRadius.only(topRight: Radius.circular(12))
-                : BorderRadius.zero;
         return Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFFE6F1FF),
-            borderRadius: radius,
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 14),
+          color: const Color(0xFFE6F1FF),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
           child: Center(
             child: Text(
               headers[index],
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF2B2B2B),
@@ -94,29 +139,17 @@ class RfNotasScreen extends StatelessWidget {
   }
 
   List<TableRow> _buildNotaRows() {
-    final dados = [
-      ['Português', '6,5', '---', '---', '2,2'],
-      ['Matemática', '7,0', '---', '---', '2,3'],
-      ['História', '4,0', '---', '---', '1,3'],
-      ['Geografia', '5,3', '---', '---', '1,8'],
-      ['Física', '8,1', '---', '---', '2,7'],
-      ['Química', '6,5', '---', '---', '2,2'],
-      ['Biologia', '5,9', '---', '---', '2,9'],
-      ['Inglês', '9,0', '---', '---', '4,5'],
-      ['Artes', '3,4', '---', '---', '1,7'],
-      ['Educação Física', '2,1', '---', '---', '1,0'],
-      ['Filosofia', '6,7', '---', '---', '3,3'],
-      ['Sociologia', '8,9', '---', '---', '4,4'],
-    ];
-
+    final dados = _dadosNotas();
     return dados.map((linha) {
       return TableRow(
         children: linha.map((c) {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14),
+            padding:
+                const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
             child: Center(
               child: Text(
                 c,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 15,
                   color: Colors.black87,
@@ -128,4 +161,19 @@ class RfNotasScreen extends StatelessWidget {
       );
     }).toList();
   }
+
+  List<List<String>> _dadosNotas() => [
+        ['Português', '6,5', '7,0', '---', '4,5'],
+        ['Matemática', '7,0', '9,5', '---', '5,5'],
+        ['História', '4,0', '5,8', '---', '3,3'],
+        ['Geografia', '5,3', '6,0', '---', '3,8'],
+        ['Física', '5,1', '6,5', '---', '3,9'],
+        ['Química', '6,5', '7,0', '---', '4,5'],
+        ['Biologia', '5,9', '8,4', '---', '4,8'],
+        ['Inglês', '9,0', '10', '---', '6,3'],
+        ['Artes', '8,4', '8,0', '---', '5,5'],
+        ['Educação Física', '10', '10', '---', '6,7'],
+        ['Filosofia', '8,7', '7,6', '---', '5,4'],
+        ['Sociologia', '8,9', '9,5', '---', '6,1'],
+      ];
 }

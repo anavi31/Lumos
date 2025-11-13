@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-//a partir daqui de baixo vc altera o diretório após screens/ conforme as suas páginas (não esquece de epeficar no nome pra diferenciar as telas)
 import '../screens/responsavel_financeiro/rf_home_screen.dart';
 import '../screens/responsavel_financeiro/rf_notas_screen.dart';
 import '../screens/responsavel_financeiro/rf_faltas_screen.dart';
 import '../screens/responsavel_financeiro/rf_financeiro_screen.dart';
 
-class LumosDrawerRF extends StatelessWidget { // aqui ce altera tbm o RF pra silga da sua tela tipo, PROF/ALN/SEC sla
-  const LumosDrawerRF({super.key}); //musa aqui tbm nn esqueça
+class LumosDrawerRF extends StatelessWidget {
+  const LumosDrawerRF({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +53,6 @@ class LumosDrawerRF extends StatelessWidget { // aqui ce altera tbm o RF pra sil
             ),
             const SizedBox(height: 25),
 
-           //aqui você também troca os nomes e ícones conforme as suas páginas, além da navegação ao clique 
             _drawerItem(
               icon: 'assets/images/profile-2user.svg',
               text: 'Notas',
