@@ -28,6 +28,10 @@ import 'package:lumos/screens/responsavel_financeiro/rf_home_screen.dart';
 import 'package:lumos/screens/responsavel_financeiro/rf_financeiro_screen.dart';
 import 'package:lumos/screens/responsavel_financeiro/rf_notas_screen.dart';
 import 'package:lumos/screens/responsavel_financeiro/rf_faltas_screen.dart';
+//Secretaria
+import '../screens/secretaria/sec_home_screen.dart';
+import '../screens/secretaria/sec_criar_perfil.dart';
+
 
 void main() {
   runApp(const LumosApp());
@@ -48,7 +52,7 @@ class LumosApp extends StatelessWidget {
           seedColor: const Color(0xFFDCC9FF),
         ),
       ),
-      initialRoute: '/login', // !! vc altera AQUI a tela que vc quer que RODE PRIMEIRO ok !!
+      initialRoute: '/sec_home', // !! vc altera AQUI a tela que vc quer que RODE PRIMEIRO ok !!
 
       routes: {
         '/login': (context) => const LoginScreen(),
@@ -74,6 +78,8 @@ class LumosApp extends StatelessWidget {
         '/rf_financeiro': (context) => const RfFinanceiroScreen(),
         '/rf_notas': (context) => const RfNotasScreen(),
         '/rf_home': (context) => const RfHomeScreen(),
+        '/sec_home': (context) => const SecHomeScreen(),
+        '/sec_criar_perfil': (context) => const CriarPerfilScreen(),
       },
     );
   }
