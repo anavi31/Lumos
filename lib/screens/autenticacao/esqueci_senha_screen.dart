@@ -132,6 +132,16 @@ class _EsqueciSenhaScreenState extends State<EsqueciSenhaScreen> {
               ),
             ),
             onPressed: () {
+              if (cpfController.text.trim().isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Por favor, insira seu CPF ou matrícula."),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+                return;
+              }
+
               Navigator.pushNamed(context, '/nova_senha');
             },
             child: const Text(
@@ -139,7 +149,8 @@ class _EsqueciSenhaScreenState extends State<EsqueciSenhaScreen> {
               style: TextStyle(color: Colors.black87),
             ),
           ),
-        ),
+        )
+
       ],
     );
   }

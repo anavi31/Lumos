@@ -27,15 +27,18 @@ class _PrChamadasScreenState extends State<PrChamadasScreen> {
     {"nome": "Pedro Sobrenome Sobrenome", "matricula": "3022278104", "classe": "3ºB", "faltas": 5, "presente": false},
   ];
 
-    void _salvarChamada() {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Chamada salva com sucesso!'),
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 2),
-        ),
-      );
-    }
+  String? serieSelecionada;
+  String? turmaSelecionada;
+
+  void _salvarChamada() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Chamada salva com sucesso!'),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +72,6 @@ class _PrChamadasScreenState extends State<PrChamadasScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Cabeçalho lilás
                 Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
@@ -87,29 +89,74 @@ class _PrChamadasScreenState extends State<PrChamadasScreen> {
                   ),
                 ),
 
-                // Tabela
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Lista de estudantes 3° B',
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: DropdownButtonFormField<String>(
+                              decoration: InputDecoration(
+                                labelText: 'Série',
+                                filled: true,
+                                fillColor: const Color(0xFFE6E1FF),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                              initialValue: serieSelecionada,
+                              items: const [
+                                DropdownMenuItem(value: "1°", child: Text("1°")),
+                                DropdownMenuItem(value: "2°", child: Text("2°")),
+                                DropdownMenuItem(value: "3°", child: Text("3°")),
+                              ],
+                              onChanged: (v) {
+                                setState(() => serieSelecionada = v);
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: DropdownButtonFormField<String>(
+                              decoration: InputDecoration(
+                                labelText: 'Turma',
+                                filled: true,
+                                fillColor: const Color(0xFFE6E1FF),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                              initialValue: turmaSelecionada,
+                              items: const [
+                                DropdownMenuItem(value: "A", child: Text("A")),
+                                DropdownMenuItem(value: "B", child: Text("B")),
+                                DropdownMenuItem(value: "C", child: Text("C")),
+                              ],
+                              onChanged: (v) {
+                                setState(() => turmaSelecionada = v);
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 12),
+
+                      const SizedBox(height: 28),
 
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
-                        headingRowColor: WidgetStateProperty.all(const Color(0xFFE6F1FF)),
+                          headingRowColor: WidgetStateProperty.all(const Color(0xFFE6F1FF)),
                           columns: const [
                             DataColumn(label: Text('Nº')),
                             DataColumn(label: Text('Estudante')),
                             DataColumn(label: Text('Matrícula')),
                             DataColumn(label: Text('Classe')),
                             DataColumn(label: Text('Quantidade de Faltas')),
-                            DataColumn(label: Text('Marcar Faltas')),
+                            DataColumn(label: Text('Marcar Presença')),
                           ],
                           rows: List.generate(alunos.length, (index) {
                             final aluno = alunos[index];
@@ -136,17 +183,13 @@ class _PrChamadasScreenState extends State<PrChamadasScreen> {
 
                       const SizedBox(height: 28),
 
-                      // Botão "Salvar chamada"
                       Center(
                         child: ElevatedButton.icon(
                           onPressed: _salvarChamada,
                           icon: const Icon(Icons.save_rounded, color: Colors.black),
                           label: const Text(
                             'Salvar chamada',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
                           ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFFFE380),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lumos/screens/secretaria/sec_gerenciar_screen.dart';
 import '../screens/autenticacao/login_screen.dart';
-import '../screens/secretaria/sec_home_screen.dart';
-import '../screens/secretaria/sec_criar_perfil.dart';
+import '../screens/secretaria/sec_criar_perfil_screen.dart';
+import '../screens/secretaria/sec_desativar_perfil_screen.dart';
+import '../screens/secretaria/sec_avisos_screen.dart';
+import '../screens/secretaria/sec_advertencias_screen.dart';
 
 class LumosDrawerSEC extends StatelessWidget {
   const LumosDrawerSEC({super.key});
@@ -41,22 +44,22 @@ class LumosDrawerSEC extends StatelessWidget {
             _drawerItem(
               icon: 'assets/images/profile-2user.svg',
               text: 'Gerenciamento de Perfis',
-              onTap: () => _navigate(context, const SecHomeScreen()), //falta fazer
+              onTap: () => _navigate(context, const GerenciarScreen()),
             ),
             _drawerItem(
               icon: 'assets/images/profile-2user.svg',
               text: 'Desativar Perfis',
-              onTap: () => _navigate(context, const SecHomeScreen()), //falta fazer
+              onTap: () => _navigate(context, const DesativarPerfisScreen()),
             ),
             _drawerItem(
               icon: 'assets/images/message-square-dots-2.svg',
               text: 'Postar Passeios e Eventos',
-              onTap: () => _navigate(context, const SecHomeScreen()), //falta fazer
+              onTap: () => _navigate(context, const SecAvisosScreen()),
             ),
             _drawerItem(
               icon: 'assets/images/message-square-dots-1.svg',
               text: 'Postar Advertências',
-              onTap: () => _navigate(context, const SecHomeScreen()), //falta fazer
+              onTap: () => _navigate(context, const SecAdvertenciasScreen()),
             ),
 
             const Spacer(),

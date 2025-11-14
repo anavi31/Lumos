@@ -30,8 +30,13 @@ import 'package:lumos/screens/responsavel_financeiro/rf_notas_screen.dart';
 import 'package:lumos/screens/responsavel_financeiro/rf_faltas_screen.dart';
 //Secretaria
 import '../screens/secretaria/sec_home_screen.dart';
-import '../screens/secretaria/sec_criar_perfil.dart';
-
+import 'screens/secretaria/sec_criar_perfil_screen.dart';
+import 'screens/secretaria/sec_gerenciar_screen.dart';
+import 'screens/secretaria/sec_gerenciar_aluno_screen.dart';
+import 'screens/secretaria/sec_gerenciar_professor.dart';
+import 'screens/secretaria/sec_desativar_perfil_screen.dart';
+import 'screens/secretaria/sec_avisos_screen.dart';
+import 'screens/secretaria/sec_advertencias_screen.dart';
 
 void main() {
   runApp(const LumosApp());
@@ -52,7 +57,7 @@ class LumosApp extends StatelessWidget {
           seedColor: const Color(0xFFDCC9FF),
         ),
       ),
-      initialRoute: '/sec_home', // !! vc altera AQUI a tela que vc quer que RODE PRIMEIRO ok !!
+      initialRoute: '/sec_home', // !! VC ALTERA AQUI A TELA QUE VC QUER QUE RODE PRIMEIRO ok !! (só enquanto as credenciais no login n tão prontas)
 
       routes: {
         '/login': (context) => const LoginScreen(),
@@ -80,6 +85,12 @@ class LumosApp extends StatelessWidget {
         '/rf_home': (context) => const RfHomeScreen(),
         '/sec_home': (context) => const SecHomeScreen(),
         '/sec_criar_perfil': (context) => const CriarPerfilScreen(),
+        '/sec_gerenciar_perfil': (context) => const GerenciarScreen(),
+        '/sec_gerenciar_aluno': (context) => const GerenciarALScreen(),
+        '/sec_gerenciar_professor': (context) => const GerenciarPRScreen(),
+        '/sec_desativar_perfil': (context) => const DesativarPerfisScreen(),
+        '/sec_avisos': (context) => const SecAvisosScreen(),
+        '/sec_advertencias': (context) => const SecAdvertenciasScreen(),
       },
     );
   }

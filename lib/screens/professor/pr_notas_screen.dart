@@ -10,34 +10,46 @@ class PrNotasScreen extends StatefulWidget {
 
 class _PrNotasScreenState extends State<PrNotasScreen> {
   final List<Map<String, dynamic>> alunos = [
-    {'nome': 'Allana Sobrenome Sobrenome', 'matricula': '1234567812', 'n1': 6.5, 'n2': 5.2, 'n3': '', 'media': ''},
-    {'nome': 'Amanda Sobrenome Sobrenome', 'matricula': '1234567812', 'n1': 7.0, 'n2': 7.2, 'n3': '', 'media': ''},
-    {'nome': 'Antônio Sobrenome Sobrenome', 'matricula': '1234567812', 'n1': 4.0, 'n2': 8.9, 'n3': '', 'media': ''},
-    {'nome': 'Bárbara Sobrenome Sobrenome', 'matricula': '9876541230', 'n1': 5.3, 'n2': 6.0, 'n3': '', 'media': ''},
-    {'nome': 'Bruno Sobrenome Sobrenome', 'matricula': '3265785423', 'n1': 8.1, 'n2': 4.9, 'n3': '', 'media': ''},
-    {'nome': 'Caio Sobrenome Sobrenome', 'matricula': '9865745230', 'n1': 6.5, 'n2': 6.5, 'n3': '', 'media': ''},
-    {'nome': 'Fernanda Sobrenome Sobrenome', 'matricula': '0235648954', 'n1': 5.9, 'n2': 5.5, 'n3': '', 'media': ''},
-    {'nome': 'Hugo Sobrenome Sobrenome', 'matricula': '1254785206', 'n1': 9.0, 'n2': 7.5, 'n3': '', 'media': ''},
-    {'nome': 'Joana Sobrenome Sobrenome', 'matricula': '1426985425', 'n1': 3.4, 'n2': 8.8, 'n3': '', 'media': ''},
-    {'nome': 'Júlia Sobrenome Sobrenome', 'matricula': '3210569874', 'n1': 2.1, 'n2': 9.3, 'n3': '', 'media': ''},
-    {'nome': 'Lucas Sobrenome Sobrenome', 'matricula': '3025631007', 'n1': 6.7, 'n2': 7.4, 'n3': '', 'media': ''},
-    {'nome': 'Luciana Sobrenome Sobrenome', 'matricula': '5478654201', 'n1': 8.9, 'n2': 5.2, 'n3': '', 'media': ''},
-    {'nome': 'Lis Sobrenome Sobrenome', 'matricula': '4511256335', 'n1': 8.0, 'n2': 9.5, 'n3': '', 'media': ''},
-    {'nome': 'Nathália Sobrenome Sobrenome', 'matricula': '7854124569', 'n1': 9.3, 'n2': 8.0, 'n3': '', 'media': ''},
-    {'nome': 'Pedro Sobrenome Sobrenome', 'matricula': '3022278104', 'n1': 9.5, 'n2': 9.8, 'n3': '', 'media': ''},
+    {'nome': 'Allana Sobrenome Sobrenome', 'matricula': '1234567812', 'n1': 6.5, 'n2': 5.2, 'n3': 0.0},
+    {'nome': 'Amanda Sobrenome Sobrenome', 'matricula': '1234567812', 'n1': 7.0, 'n2': 7.2, 'n3': 0.0},
+    {'nome': 'Antônio Sobrenome Sobrenome', 'matricula': '1234567812', 'n1': 4.0, 'n2': 8.9, 'n3': 0.0},
+    {'nome': 'Bárbara Sobrenome Sobrenome', 'matricula': '9876541230', 'n1': 5.3, 'n2': 6.0, 'n3': 0.0},
+    {'nome': 'Bruno Sobrenome Sobrenome', 'matricula': '3265785423', 'n1': 8.1, 'n2': 4.9, 'n3': 0.0},
+    {'nome': 'Caio Sobrenome Sobrenome', 'matricula': '9865745230', 'n1': 6.5, 'n2': 6.5, 'n3': 0.0},
+    {'nome': 'Fernanda Sobrenome Sobrenome', 'matricula': '0235648954', 'n1': 5.9, 'n2': 5.5, 'n3': 0.0},
+    {'nome': 'Hugo Sobrenome Sobrenome', 'matricula': '1254785206', 'n1': 9.0, 'n2': 7.5, 'n3': 0.0},
+    {'nome': 'Joana Sobrenome Sobrenome', 'matricula': '1426985425', 'n1': 3.4, 'n2': 8.8, 'n3': 0.0},
+    {'nome': 'Júlia Sobrenome Sobrenome', 'matricula': '3210569874', 'n1': 2.1, 'n2': 9.3, 'n3': 0.0},
+    {'nome': 'Lucas Sobrenome Sobrenome', 'matricula': '3025631007', 'n1': 6.7, 'n2': 7.4, 'n3': 0.0},
+    {'nome': 'Luciana Sobrenome Sobrenome', 'matricula': '5478654201', 'n1': 8.9, 'n2': 5.2, 'n3': 0.0},
+    {'nome': 'Lis Sobrenome Sobrenome', 'matricula': '4511256335', 'n1': 8.0, 'n2': 9.5, 'n3': 0.0},
+    {'nome': 'Nathália Sobrenome Sobrenome', 'matricula': '7854124569', 'n1': 9.3, 'n2': 8.0, 'n3': 0.0},
+    {'nome': 'Pedro Sobrenome Sobrenome', 'matricula': '3022278104', 'n1': 9.5, 'n2': 9.8, 'n3': 0.0},
   ];
 
-  void _calcularMedia(int index) {
-    final aluno = alunos[index];
-    double soma = 0;
+  List<double> medias = [];
 
-    for (var key in ['n1', 'n2', 'n3']) {
-      soma += double.tryParse(aluno[key].toString()) ?? 0;
-    }
+  @override
+  void initState() {
+    super.initState();
+    _calcularTodas();
+  }
 
-    aluno['media'] = (soma / 3).toStringAsFixed(1);
+  void _calcularTodas() {
+    medias = alunos.map((aluno) {
+      double m = ((aluno['n1'] + aluno['n2'] + aluno['n3']) / 3);
+      return double.parse(m.toStringAsFixed(1));
+    }).toList();
     setState(() {});
   }
+
+  void _calcularMedia(int index) {
+    double m = (alunos[index]['n1'] + alunos[index]['n2'] + alunos[index]['n3']) / 3;
+    medias[index] = double.parse(m.toStringAsFixed(1));
+    setState(() {});
+  }
+
+  String? serieTurmaSelecionada;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +70,7 @@ class _PrNotasScreenState extends State<PrNotasScreen> {
         ),
       ),
       backgroundColor: const Color(0xFFF5F4F9),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Center(
@@ -68,9 +81,10 @@ class _PrNotasScreenState extends State<PrNotasScreen> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 3)],
             ),
+
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Cabeçalho lilás
                 Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
@@ -78,59 +92,49 @@ class _PrNotasScreenState extends State<PrNotasScreen> {
                     borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      bool isSmall = constraints.maxWidth < 700;
-                      return isSmall
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Lançar notas',
-                                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.black87),
-                                ),
-                                const SizedBox(height: 8),
-                                const Text('Disciplina: Biologia'),
-                                const Text('Docente: Professora X'),
-                                const Text('Ano: 2025'),
-                                const Text('Período: 3º Trimestre'),
-                                const SizedBox(height: 16),
-                                Wrap(
-                                  spacing: 8,
-                                  runSpacing: 8,
-                                  children: [
-                                    _dropdownFiltro('Selecionar Série e Turma', 150),
-                                  ],
-                                ),
-                              ],
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Lançar notas',
-                                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.black87),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text('Disciplina: Biologia'),
-                                    Text('Docente: Professora X'),
-                                    Text('Ano: 2025'),
-                                    Text('Período: 3º Trimestre'),
-                                  ],
-                                ),
-                                Wrap(
-                                  spacing: 8,
-                                  children: [
-                                    _dropdownFiltro('Selecionar Série e Turma', 150),
-                                  ],
-                                ),
-                              ],
-                            );
-                    },
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Lançar notas',
+                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
+                          SizedBox(height: 6),
+                          Text('Disciplina: Biologia'),
+                          Text('Docente: Professora X'),
+                          Text('Ano: 2025'),
+                          Text('Período: 3º Trimestre'),
+                        ],
+                      ),
+
+                      SizedBox(
+                        width: 140,
+                        child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: const Color(0xFFE6E1FF),
+                            labelText: 'Série/Turma',
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide.none),
+                          ),
+                          initialValue: serieTurmaSelecionada,
+                          items: const [
+                            DropdownMenuItem(value: "1A", child: Text("1° A")),
+                            DropdownMenuItem(value: "2A", child: Text("2° A")),
+                            DropdownMenuItem(value: "3A", child: Text("3° A")),
+                            DropdownMenuItem(value: "1B", child: Text("1° B")),
+                            DropdownMenuItem(value: "2B", child: Text("2° B")),
+                            DropdownMenuItem(value: "3B", child: Text("3° B")),
+                          ],
+                          onChanged: (v) {
+                            setState(() => serieTurmaSelecionada = v);
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -142,6 +146,7 @@ class _PrNotasScreenState extends State<PrNotasScreen> {
                       const Text('Lista de estudantes 3° B',
                           style: TextStyle(fontWeight: FontWeight.w600)),
                       const SizedBox(height: 12),
+
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
@@ -155,23 +160,24 @@ class _PrNotasScreenState extends State<PrNotasScreen> {
                             DataColumn(label: Text('3ª Unidade')),
                             DataColumn(label: Text('Média')),
                           ],
-                          rows: List.generate(alunos.length, (index) {
-                            final aluno = alunos[index];
+                          rows: List.generate(alunos.length, (i) {
+                            final aluno = alunos[i];
+
                             return DataRow(cells: [
-                              DataCell(Text('${index + 1}'.padLeft(2, '0'))),
+                              DataCell(Text('${i + 1}'.padLeft(2, '0'))),
                               DataCell(Text(aluno['nome'])),
                               DataCell(Text(aluno['matricula'])),
-                              DataCell(_campoNota(index, 'n1')),
-                              DataCell(_campoNota(index, 'n2')),
-                              DataCell(_campoNota(index, 'n3')),
-                              DataCell(Text('${aluno['media']}')),
+                              DataCell(_campoNota(i, 'n1')),
+                              DataCell(_campoNota(i, 'n2')),
+                              DataCell(_campoNota(i, 'n3')),
+                              DataCell(Text(medias[i].toString())),
                             ]);
                           }),
                         ),
                       ),
                     ],
                   ),
-                ),
+                )
               ],
             ),
           ),
@@ -186,59 +192,28 @@ class _PrNotasScreenState extends State<PrNotasScreen> {
     );
 
     return SizedBox(
-      width: 70,
-      height: 36,
+      width: 65,
+      height: 32, // 🔥 MAIS BAIXINHA
       child: TextField(
         textAlign: TextAlign.center,
         controller: controller,
         keyboardType: TextInputType.number,
         onSubmitted: (value) {
-          alunos[index][campo] = value;
+          alunos[index][campo] = double.tryParse(value) ?? 0.0;
           _calcularMedia(index);
         },
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(vertical: 4),
+          contentPadding: const EdgeInsets.symmetric(vertical: 6),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),
-            borderSide: const BorderSide(color: Colors.grey),
+            borderSide: const BorderSide(color: Colors.grey, width: 1),
           ),
           filled: true,
-          fillColor: const Color(0xFFF8F8F8),
+          fillColor: const Color(0xFFF5F5F5),
         ),
+        style: const TextStyle(fontSize: 14),
       ),
     );
   }
 
-  Widget _dropdownFiltro(String hint, double width) {
-    return SizedBox(
-      width: width,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.black26),
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<String>(
-            isExpanded: true,
-            hint: Text(hint),
-            value: null,
-            items: const [
-              DropdownMenuItem(value: '1', child: Text('1° A')),
-              DropdownMenuItem(value: '2', child: Text('2° A')),
-              DropdownMenuItem(value: '3', child: Text('3° A')),
-              DropdownMenuItem(value: '4', child: Text('1° B')),
-              DropdownMenuItem(value: '5', child: Text('2° B')),
-              DropdownMenuItem(value: '6', child: Text('3° B')),
-              DropdownMenuItem(value: '4', child: Text('1° C')),
-              DropdownMenuItem(value: '5', child: Text('2° C')),
-              DropdownMenuItem(value: '6', child: Text('3° C')),
-            ],
-            onChanged: (value) {},
-          ),
-        ),
-      ),
-    );
-  }
 }
