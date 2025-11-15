@@ -10,7 +10,7 @@ class AlHorarioScreen extends StatelessWidget {
       drawer: const LumosDrawerAL(),
       appBar: AppBar(
         title: const Text(
-          'Grade Horária 3°B',
+          'Grade Horária',
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,

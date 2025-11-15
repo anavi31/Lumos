@@ -143,10 +143,6 @@ class _PrNotasScreenState extends State<PrNotasScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Lista de estudantes 3° B',
-                          style: TextStyle(fontWeight: FontWeight.w600)),
-                      const SizedBox(height: 12),
-
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
