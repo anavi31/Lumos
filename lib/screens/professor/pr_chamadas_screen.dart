@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import '../../widgets/lumos_drawer_professor.dart';
+import 'package:http/http.dart' as http;
+import 'package:lumos/widgets/lumos_drawer_professor.dart';
 
 class PrChamadasScreen extends StatefulWidget {
   const PrChamadasScreen({super.key});
@@ -9,206 +11,190 @@ class PrChamadasScreen extends StatefulWidget {
 }
 
 class _PrChamadasScreenState extends State<PrChamadasScreen> {
-  final List<Map<String, dynamic>> alunos = [
-    {"nome": "Allana Sobrenome Sobrenome", "matricula": "1234567812", "classe": "3ºB", "faltas": 3, "presente": false},
-    {"nome": "Amanda Sobrenome Sobrenome", "matricula": "1234567812", "classe": "3ºB", "faltas": 2, "presente": false},
-    {"nome": "Antônio Sobrenome Sobrenome", "matricula": "1234567812", "classe": "3ºB", "faltas": 7, "presente": false},
-    {"nome": "Bárbara Sobrenome Sobrenome", "matricula": "9876541230", "classe": "3ºB", "faltas": 0, "presente": true},
-    {"nome": "Bruno Sobrenome Sobrenome", "matricula": "3265785423", "classe": "3ºB", "faltas": 1, "presente": false},
-    {"nome": "Caio Sobrenome Sobrenome", "matricula": "9865745230", "classe": "3ºB", "faltas": 0, "presente": false},
-    {"nome": "Fernanda Sobrenome Sobrenome", "matricula": "0235648954", "classe": "3ºB", "faltas": 0, "presente": false},
-    {"nome": "Hugo Sobrenome Sobrenome", "matricula": "1254785206", "classe": "3ºB", "faltas": 0, "presente": false},
-    {"nome": "Joana Sobrenome Sobrenome", "matricula": "1426985425", "classe": "3ºB", "faltas": 4, "presente": false},
-    {"nome": "Júlia Sobrenome Sobrenome", "matricula": "3210569874", "classe": "3ºB", "faltas": 2, "presente": false},
-    {"nome": "Lucas Sobrenome Sobrenome", "matricula": "3026531007", "classe": "3ºB", "faltas": 6, "presente": true},
-    {"nome": "Luciana Sobrenome Sobrenome", "matricula": "5478654201", "classe": "3ºB", "faltas": 3, "presente": true},
-    {"nome": "Lis Sobrenome Sobrenome", "matricula": "4511265335", "classe": "3ºB", "faltas": 2, "presente": false},
-    {"nome": "Nathália Sobrenome Sobrenome", "matricula": "7854124569", "classe": "3ºB", "faltas": 0, "presente": false},
-    {"nome": "Pedro Sobrenome Sobrenome", "matricula": "3022278104", "classe": "3ºB", "faltas": 5, "presente": false},
-  ];
+  List<dynamic> chamadas = [];
+  bool loading = true;
+  bool sending = false;
 
-  String? serieSelecionada;
-  String? turmaSelecionada;
-
-  void _salvarChamada() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Chamada salva com sucesso!'),
-        backgroundColor: Colors.green,
-        duration: Duration(seconds: 2),
-      ),
-    );
+  @override
+  void initState() {
+    super.initState();
+    carregarChamadas();
   }
 
+  Future<void> carregarChamadas() async {
+    try {
+      final url = Uri.parse("http://localhost:8080/api/chamadas");
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        setState(() {
+          chamadas = data.map((c) {
+            return {
+              "matrícula": c["matrícula"],
+              "aluno": c["aluno"],
+              "presenca": c["presenca"] ?? false,
+            };
+          }).toList();
+
+          loading = false;
+        });
+      } else {
+        throw Exception("Erro ao carregar");
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => loading = false);
+      debugPrint("Erro: $e");
+    }
+  }
+
+  Future<void> salvarChamadas() async {
+    setState(() => sending = true);
+
+    try {
+      final url = Uri.parse("http://localhost:8080/api/chamadas");
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(chamadas),
+      );
+
+      if (!mounted) return;
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Chamada registrada com sucesso!")),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Erro ao registrar chamada")),
+        );
+      }
+    } catch (e) {
+      debugPrint("Erro ao salvar: $e");
+    }
+
+    if (!mounted) return;
+    setState(() => sending = false);
+  }
+
+  //código da interface, só visual mesmo !!!!!
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const LumosDrawerPR(),
+      backgroundColor: const Color(0xfff3edf9),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFDCC9FF),
+        backgroundColor: const Color(0xffd9b3ff),
         elevation: 0,
-        centerTitle: true,
         title: const Text(
-          'LUMOS',
+          "LUMOS",
           style: TextStyle(
-            fontFamily: 'Frogie',
-            fontSize: 38,
+            fontFamily: "Frogie",
+            fontSize: 32,
             color: Colors.black,
-            letterSpacing: 1.2,
           ),
         ),
       ),
-      backgroundColor: const Color(0xFFF5F4F9),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Center(
-          child: Container(
-            width: 1000,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 3)],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      drawer: LumosDrawerPR(), 
+      body: loading
+          ? const Center(
+              child: CircularProgressIndicator(color: Colors.purple),
+            )
+          : Column(
               children: [
+                const SizedBox(height: 20),
+
                 Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFDCC9FF),
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                  padding: const EdgeInsets.all(18),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xffd9b3ff),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
                   child: const Text(
-                    'Realizar Chamada',
+                    "Realizar Chamada",
                     style: TextStyle(
                       fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: DropdownButtonFormField<String>(
-                              decoration: InputDecoration(
-                                labelText: 'Série',
-                                filled: true,
-                                fillColor: const Color(0xFFE6E1FF),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none,
-                                ),
-                              ),
-                              initialValue: serieSelecionada,
-                              items: const [
-                                DropdownMenuItem(value: "1°", child: Text("1°")),
-                                DropdownMenuItem(value: "2°", child: Text("2°")),
-                                DropdownMenuItem(value: "3°", child: Text("3°")),
-                              ],
-                              onChanged: (v) {
-                                setState(() => serieSelecionada = v);
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: DropdownButtonFormField<String>(
-                              decoration: InputDecoration(
-                                labelText: 'Turma',
-                                filled: true,
-                                fillColor: const Color(0xFFE6E1FF),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none,
-                                ),
-                              ),
-                              initialValue: turmaSelecionada,
-                              items: const [
-                                DropdownMenuItem(value: "A", child: Text("A")),
-                                DropdownMenuItem(value: "B", child: Text("B")),
-                                DropdownMenuItem(value: "C", child: Text("C")),
-                              ],
-                              onChanged: (v) {
-                                setState(() => turmaSelecionada = v);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                const SizedBox(height: 20),
 
-                      const SizedBox(height: 28),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: chamadas.length,
+                    itemBuilder: (context, index) {
+                      final item = chamadas[index];
 
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
-                          headingRowColor: WidgetStateProperty.all(const Color(0xFFE6F1FF)),
-                          columns: const [
-                            DataColumn(label: Text('Nº')),
-                            DataColumn(label: Text('Estudante')),
-                            DataColumn(label: Text('Matrícula')),
-                            DataColumn(label: Text('Classe')),
-                            DataColumn(label: Text('Quantidade de Faltas')),
-                            DataColumn(label: Text('Marcar Presença')),
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 6),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 26),
+                              blurRadius: 4,
+                            )
                           ],
-                          rows: List.generate(alunos.length, (index) {
-                            final aluno = alunos[index];
-                            return DataRow(cells: [
-                              DataCell(Text('${index + 1}'.padLeft(2, '0'))),
-                              DataCell(Text(aluno['nome'])),
-                              DataCell(Text(aluno['matricula'])),
-                              DataCell(Text(aluno['classe'])),
-                              DataCell(Text(aluno['faltas'].toString())),
-                              DataCell(
-                                Checkbox(
-                                  value: aluno['presente'],
-                                  onChanged: (value) {
-                                    setState(() {
-                                      aluno['presente'] = value!;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ]);
-                          }),
                         ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${item["matrícula"]}    ${item["aluno"]}",
+                              style: const TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            Checkbox(
+                              value: item["presenca"],
+                              onChanged: (value) {
+                                setState(() {
+                                  item["presenca"] = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: ElevatedButton(
+                    onPressed: sending ? null : salvarChamadas,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xffb784f0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-
-                      const SizedBox(height: 28),
-
-                      Center(
-                        child: ElevatedButton.icon(
-                          onPressed: _salvarChamada,
-                          icon: const Icon(Icons.save_rounded, color: Colors.black),
-                          label: const Text(
-                            'Salvar chamada',
-                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFFFE380),
-                            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: sending
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : const Text(
+                            "Salvar Chamada",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                    ],
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-      ),
     );
   }
 }
