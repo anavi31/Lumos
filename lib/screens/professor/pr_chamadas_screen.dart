@@ -32,9 +32,10 @@ class _PrChamadasScreenState extends State<PrChamadasScreen> {
         setState(() {
           chamadas = data.map((c) {
             return {
-              "matrícula": c["matrícula"],
+              "id": c["id"],
+              "matrícula": c["matricula"],
               "aluno": c["aluno"],
-              "presenca": c["presenca"] ?? false,
+              "presenca": c["presenca"] == 1,
             };
           }).toList();
 
@@ -50,34 +51,32 @@ class _PrChamadasScreenState extends State<PrChamadasScreen> {
     }
   }
 
-  Future<void> salvarChamadas() async {
-    setState(() => sending = true);
-
-    try {
-      final url = Uri.parse("http://localhost:8080/api/chamadas");
-      final response = await http.post(
-        url,
+  Future<void> salvarChamada() async {
+    for (var aluno in chamadas) {
+      await http.post(
+        Uri.parse("http://localhost:8080/api/chamadas/registrar"),
         headers: {"Content-Type": "application/json"},
-        body: json.encode(chamadas),
-      );
-
-      if (!mounted) return;
-
-      if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Chamada registrada com sucesso!")),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Erro ao registrar chamada")),
-        );
-      }
-    } catch (e) {
-      debugPrint("Erro ao salvar: $e");
+        body: jsonEncode({
+          "idAluno": aluno["id"],
+          "idHorarioAula": 1,
+          "presente": aluno["presenca"] == true
+        }),
+      ).then((resp) {
+        final result = jsonDecode(resp.body);
+        aluno["faltas"] = result["faltasAtualizadas"];
+      });
     }
 
     if (!mounted) return;
-    setState(() => sending = false);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Chamada salva!"),
+        backgroundColor: Colors.green,
+      ),
+    );
+
+    setState(() {});
   }
 
   //código da interface, só visual mesmo !!!!!
@@ -157,7 +156,7 @@ class _PrChamadasScreenState extends State<PrChamadasScreen> {
                               value: item["presenca"],
                               onChanged: (value) {
                                 setState(() {
-                                  item["presenca"] = value;
+                                  item["presenca"] = value ?? false;
                                 });
                               },
                             ),
@@ -171,7 +170,7 @@ class _PrChamadasScreenState extends State<PrChamadasScreen> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: ElevatedButton(
-                    onPressed: sending ? null : salvarChamadas,
+                    onPressed: sending ? null : salvarChamada,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xffb784f0),
                       padding: const EdgeInsets.symmetric(
